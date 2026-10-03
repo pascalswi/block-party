@@ -1,0 +1,12 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+*.log
+coverage/
+test-results/
+playwright-report/
+project.md
+AGENTS.md
+.agents/
+.codex/
