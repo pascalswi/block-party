@@ -1,0 +1,8 @@
+{
+  "name": "block-party",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A colorful falling-block browser game with original synthesized audio.",
+  "scripts": {"test": "node --test tests/engine.test.cjs", "start": "python3 -m http.server 8080 --bind 127.0.0.1"},
+  "license": "MIT"
+}
