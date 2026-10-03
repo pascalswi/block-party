@@ -1,0 +1,11 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const {Game,SHAPES}=require('../engine.js');
+test('seven-bag yields every shape once per bag',()=>{const g=new Game();const first=[g.piece.type];for(let i=0;i<6;i++){g.spawn();first.push(g.piece.type);}assert.equal(new Set(first).size,7);});
+test('walls, floor, and settled blocks prevent movement',()=>{const g=new Game();g.spawn('O');g.piece.x=0;assert.equal(g.move(-1),false);g.piece.y=18;assert.equal(g.move(0,1),false);g.piece.y=0;g.board[2][0]='I';assert.equal(g.move(0,1),false);});
+test('four rows clear together, score and level update',()=>{const g=new Game();g.lines=8;for(let y=16;y<20;y++){g.board[y]=Array(10).fill('J');g.board[y][4]=null;}g.spawn('I');g.piece.cells=[[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]];g.piece.x=3;g.piece.y=16;const r=g.lock();assert.equal(r.cleared,4);assert.equal(g.score,800);assert.equal(g.level,2);assert.ok(g.board.every(row=>row.every(c=>c===null)));});
+test('parking is limited to once per piece and resets after lock',()=>{const g=new Game();const first=g.piece.type;assert.equal(g.hold(),true);assert.equal(g.held,first);assert.equal(g.hold(),false);g.hardDrop();assert.equal(g.hold(),true);assert.equal(g.piece.type,first);});
+test('hard drop locks on ghost and awards distance points',()=>{const g=new Game();g.spawn('O');assert.equal(g.ghostY(),18);g.hardDrop();assert.equal(g.score,36);assert.equal(g.board[19][4],'O');});
+test('spawn collision ends the game',()=>{const g=new Game();g.board[0]=Array(10).fill('O');g.spawn('O');assert.equal(g.over,true);assert.equal(g.move(1),false);});
+test('rotation preserves cells and kicks away from walls and floor',()=>{const g=new Game();g.spawn('T');const before=g.piece.cells.flat().filter(Boolean).length;for(let i=0;i<4;i++)assert.equal(g.rotate(),true);assert.deepEqual(g.piece.cells,SHAPES.T);assert.equal(g.piece.cells.flat().filter(Boolean).length,before);g.spawn('I');g.piece.y=18;assert.equal(g.rotate(),true);assert.equal(g.collides(g.piece),false);});
+test('Chill stays at level 1 even after clearing ten rows',()=>{const g=new Game('chill');g.lines=9;g.board[19]=Array(10).fill('J');g.board[19][4]=null;g.board[19][5]=null;g.spawn('O');g.piece.y=18;g.lock();assert.equal(g.lines,10);assert.equal(g.level,1);assert.equal(g.interval,1000);});
