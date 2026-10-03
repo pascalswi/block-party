@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#121423">
+  <meta name="description" content="Block Party – bunte Blöcke, gute Beats und ein bisschen Chaos. Ein kostenloses Browser-Spiel für Computer und Tastatur.">
+  <title>Block Party · Let’s roll!</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="engine.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Block Party Startseite"><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>BLOCK<span>PARTY</span></a>
+      <div class="top-actions"><span class="local-tag"><i></i> JUST ONE MORE ROUND</span><button id="sound" class="icon-button" aria-label="Sound ausschalten" aria-pressed="true" title="Sound">♫</button><button id="music" class="icon-button" aria-label="Musik einschalten" aria-pressed="false" title="Musik">♬</button><button id="help" class="icon-button" aria-label="Spielanleitung öffnen" title="Anleitung">?</button></div>
+    </header>
+    <section class="intro"><div class="eyebrow">KLEINE BLÖCKE. GROSSE GEFÜHLE.</div><h1>Ordnung war gestern.<br><span>Heute ist Block Party.</span><span class="spark" aria-hidden="true">✳</span></h1><p>Stapeln. Drehen. Abräumen. Und bitte nicht bis ganz oben.</p></section>
+    <section class="game-layout" aria-label="Block Party Spiel">
+      <aside class="left-rail">
+        <div class="panel score-panel"><span class="label">DEINE PUNKTE</span><strong id="score">0</strong><div class="best-row"><span>♛ Persönlicher Rekord</span><b id="best">0</b></div></div>
+        <div class="panel stats-panel"><div><span class="label">LEVEL</span><strong id="level">01</strong></div><div><span class="label">REIHEN</span><strong id="lines">00</strong></div></div>
+        <div class="panel hold-panel"><div class="panel-head"><span class="label">PARKPLATZ</span><kbd>C</kbd></div><canvas id="hold" width="180" height="100" aria-label="Geparkter Block"></canvas><p>Ein Block für später.</p></div>
+        <div class="mascot-card"><div class="mascot" aria-hidden="true"><span></span><span></span><i></i></div><p id="quip">Ich glaube an dich.<br>Und an die Schwerkraft.</p><span class="mascot-name">BLOBBY · DEIN HYPE-BLOCK</span></div>
+      </aside>
+      <div class="board-column"><div class="board-top"><span><i></i> <b id="mode-label">ARCADE</b></span><button id="pause" disabled aria-label="Spiel pausieren">Ⅱ Pause</button></div><div class="board-shell"><canvas tabindex="0" id="board" width="300" height="600" aria-label="Spielfeld mit 10 Spalten und 20 Reihen"></canvas><div id="toast" class="toast" aria-live="polite"></div><div id="overlay" class="overlay"><div class="overlay-symbol" aria-hidden="true">✦</div><span id="overlay-kicker" class="eyebrow">DEIN NÄCHSTER KLEINER FLOW-MOMENT</span><h2 id="overlay-title">Ready to<br><span>block ’n’ roll?</span></h2><p id="overlay-copy">Volle Reihen verschwinden.<br>Dein Alltag auch. Kurz jedenfalls.</p><div id="modes" class="mode-switch" aria-label="Spielmodus"><button data-mode="arcade" class="selected" aria-pressed="true">⚡ Arcade</button><button data-mode="chill" aria-pressed="false">☁ Chill</button></div><button id="start" class="primary-button">Party starten <span>↗</span></button><span id="overlay-hint" class="overlay-hint">Computer + Tastatur. Kein Login.</span></div></div><div class="board-bottom"><span>✧ Ein bisschen Chaos tut gut.</span><span id="state-label">BEREIT</span></div></div>
+      <aside class="right-rail"><div class="panel next-panel"><div class="panel-head"><span class="label">ALS NÄCHSTES</span><span class="tiny-pill">3</span></div><canvas id="next" width="180" height="280" aria-label="Die nächsten drei Blöcke"></canvas><p>Die Zukunft ist ziemlich bunt.</p></div><div class="panel controls-panel"><span class="label">DEINE MOVES</span><div><span><kbd>←</kbd> <kbd>→</kbd></span><span>Verschieben</span></div><div><span><kbd>↑</kbd> / <kbd>X</kbd></span><span>Drehen</span></div><div><kbd>↓</kbd><span>Schneller fallen</span></div><div><kbd>Space</kbd><span>Direkt absetzen</span></div><div><kbd>C</kbd><span>Block parken</span></div><div><kbd>P</kbd><span>Pause</span></div></div><div class="little-note"><span>✳</span><p>Perfekt muss nichts sein.<br>Ausser vielleicht die nächste Reihe.</p></div></aside>
+    </section>
+    <footer><span>MADE FOR FUN. PLAYED FOR THE PLOT.</span><span>Ohne Werbung · Rekorde bleiben auf deinem Gerät</span><button id="restart">↻ Neue Runde</button></footer>
+  </main>
+  <dialog id="help-dialog"><button id="close-help" class="dialog-close" aria-label="Anleitung schliessen">×</button><span class="eyebrow">SO GEHT DIE PARTY</span><h2>Platz für gute Moves.</h2><p>Fülle eine komplette waagerechte Reihe. Sie verschwindet und gibt Punkte. Vier Reihen auf einmal sind ein <strong>Party Clear</strong>!</p><p>Der Umriss zeigt, wo dein Block landet. Mit <strong>C</strong> parkst du einen Block einmal pro Zug. Mit <strong>Z</strong> drehst du nach links. <strong>P / Escape</strong> pausiert.</p><p><strong>Arcade:</strong> Alle 10 Reihen wird’s schneller.<br><strong>Chill:</strong> Bleibt gemütlich. Eigener Rekord.</p><p>Sound und Musik kannst du oben einzeln ein- und ausschalten. Wenn du den Tab verlässt, pausiert die Runde automatisch.</p><button id="help-done" class="primary-button">Alles klar. Let’s go! ↗</button></dialog>
+</body>
+</html>
